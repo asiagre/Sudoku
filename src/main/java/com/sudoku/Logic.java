@@ -71,21 +71,23 @@ public class Logic {
     }
 
     public void addNumber(List<SudokuElement> list) throws SudokuException {
-        for(int i = SudokuBoard.MIN_INDEX; i <= SudokuBoard.MAX_INDEX; i++) {
-            SudokuElement sudokuElement = list.get(i);
-            if(sudokuElement.getValue() == -1) {
-                if(sudokuElement.getListOfPossibleNumbers().size() == 0) {
-                    sudokuGame.changedElement();
-                } else if (sudokuElement.getListOfPossibleNumbers().size() == 1) {
-                    sudokuElement.setValue(sudokuElement.getListOfPossibleNumbers().get(0));
-                    changed = true;
-                    removeFromLists(sudokuElement);
-                } else {
-                    OnlyOptionDAO onlyOptionDAO = onlyOption(sudokuElement, list);
-                    if(onlyOptionDAO.isOnlyOption()) {
-                        sudokuElement.setValue(onlyOptionDAO.getValue());
+        if(!sudokuGame.isChangedBoard())  {
+            for(int i = SudokuBoard.MIN_INDEX; i <= SudokuBoard.MAX_INDEX; i++) {
+                SudokuElement sudokuElement = list.get(i);
+                if (sudokuElement.getValue() == -1) {
+                    if (sudokuElement.getListOfPossibleNumbers().size() == 0) {
+                        sudokuGame.changedElement();
+                    } else if (sudokuElement.getListOfPossibleNumbers().size() == 1) {
+                        sudokuElement.setValue(sudokuElement.getListOfPossibleNumbers().get(0));
                         changed = true;
                         removeFromLists(sudokuElement);
+                    } else {
+                        OnlyOptionDAO onlyOptionDAO = onlyOption(sudokuElement, list);
+                        if (onlyOptionDAO.isOnlyOption()) {
+                            sudokuElement.setValue(onlyOptionDAO.getValue());
+                            changed = true;
+                            removeFromLists(sudokuElement);
+                        }
                     }
                 }
             }
@@ -135,14 +137,13 @@ public class Logic {
             int guessValue = listOfValues.get(guessIndex);
             sudokuGame.addNumber(new InputDAO(guessColumn, guessRow, guessValue));
             removeFromLists(sudokuBoard.getBoard().get(guessRow).getSudokuElementsRow().get(guessColumn));
-        } else {
-            try {
-                sudokuGame.changedElement();
-            } catch (SudokuException e) {
-                System.out.println(e.getMessage());
-                System.out.println(sudokuBoard);
-            }
-        }
+        } //else {
+//            try {
+//                sudokuGame.changedElement();
+//            } catch (SudokuException e) {
+//                System.out.println(e.getMessage());
+//            }
+//        }
     }
 
     public void removeFromLists(SudokuElement sudokuElement) {

@@ -8,6 +8,7 @@ public class SudokuGame {
     public static final String SUDOKU = "SUDOKU";
     private SudokuBoard sudokuBoard;
     private Logic logic;
+    private boolean changedBoard;
     private Deque<SudokuBoard> stack = new ArrayDeque<>();
 
     public SudokuGame(SudokuBoard sudokuBoard) {
@@ -38,19 +39,15 @@ public class SudokuGame {
 
     public void completeSudoku() {
         do {
-            try {
-                stack.offer(sudokuBoard.deepCopy());
-            } catch(CloneNotSupportedException e) {
-                System.out.println(e.getMessage());
-            }
             do {
+                changedBoard = false;
                 logic.setChanged(false);
                 logic.checkingSudokuRow();
                 logic.checkingSudokuColumn();
                 logic.checkingSudokuSector();
             } while(logic.isChanged());
             try {
-                stack.offer(sudokuBoard.deepCopy());
+                stack.offerFirst(sudokuBoard.deepCopy());
             } catch(CloneNotSupportedException e) {
                 System.out.println(e.getMessage());
             }
@@ -64,16 +61,18 @@ public class SudokuGame {
 
     public void changedElement() throws SudokuException {
         if(stack.size() > 0) {
-            SudokuBoard takenBoard = stack.poll();
-            System.out.println(takenBoard);
+            SudokuBoard takenBoard = stack.pollFirst();
+//            System.out.println(takenBoard);
             for(SudokuRow sudokuRow : takenBoard.getBoard()) {
                 for(SudokuElement sudokuElement : sudokuRow.getSudokuElementsRow()) {
                     if (sudokuElement.getValue() != sudokuBoard.getBoard().get(sudokuElement.getRowNumber()).getSudokuElementsRow().get(sudokuElement.getColumnNumber()).getValue()) {
                         sudokuElement.getListOfPossibleNumbers().remove((Integer) sudokuBoard.getBoard().get(sudokuElement.getRowNumber()).getSudokuElementsRow().get(sudokuElement.getColumnNumber()).getValue());
-                        sudokuBoard = takenBoard;
                     }
                 }
             }
+            sudokuBoard = takenBoard;
+            changedBoard = true;
+            logic.setChanged(true);
         } else {
             System.out.println(sudokuBoard);
             System.exit(1);
@@ -93,4 +92,7 @@ public class SudokuGame {
         return stack;
     }
 
+    public boolean isChangedBoard() {
+        return changedBoard;
+    }
 }

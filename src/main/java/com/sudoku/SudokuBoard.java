@@ -61,7 +61,7 @@ public class SudokuBoard extends Prototype {
         clonedBoard.board = new ArrayList<>();
         for(SudokuRow sudokuRow : board) {
             List<SudokuElement> clonedListOfSudokuElements = sudokuRow.getSudokuElementsRow().stream()
-                    .map(sudokuElement -> new SudokuElement(new ArrayList<Integer>(sudokuElement.getListOfPossibleNumbers()), sudokuElement.getColumnNumber(), sudokuElement.getRowNumber()))
+                    .map(sudokuElement -> new SudokuElement(new ArrayList<Integer>(sudokuElement.getListOfPossibleNumbers()), sudokuElement.getValue(), sudokuElement.getColumnNumber(), sudokuElement.getRowNumber()))
                     .collect(Collectors.toList());
             SudokuRow clonedSudokuRow = new SudokuRow(clonedListOfSudokuElements);
 //            for(int i = SudokuBoard.MIN_INDEX; i <= SudokuBoard.MAX_INDEX; i++) {

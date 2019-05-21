@@ -18,8 +18,9 @@ public class SudokuElement {
         }
     }
 
-    public SudokuElement(List<Integer> list, int columnNumber, int rowNumber) {
+    public SudokuElement(List<Integer> list, int value, int columnNumber, int rowNumber) {
         this.listOfPossibleNumbers = list;
+        this.value = value;
         this.columnNumber = columnNumber;
         this.rowNumber = rowNumber;
     }
