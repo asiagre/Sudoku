@@ -7,12 +7,13 @@ import java.util.Objects;
 public class SudokuElement {
     public static final int EMPTY = -1;
     private int value = EMPTY;
-    private List<Integer> listOfPossibleNumbers = new ArrayList<>();
+    private List<Integer> listOfPossibleNumbers;
     private int columnNumber;
     private int rowNumber;
 
     public SudokuElement(int columnNumber) {
         this.columnNumber = columnNumber;
+        listOfPossibleNumbers = new ArrayList<>();
         for(int i = 1; i < 10; i++) {
             listOfPossibleNumbers.add(i);
         }
