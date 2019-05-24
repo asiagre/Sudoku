@@ -10,12 +10,8 @@ public class SudokuGame {
     private boolean changedBoard;
     private Random generator = new Random();
     private boolean changed = false;
+    private boolean goodGuess = false;
     private Deque<SudokuBoard> stack = new ArrayDeque<>();
-
-//    public SudokuGame(SudokuBoard sudokuBoard) {
-//        this.sudokuBoard = sudokuBoard;
-////        this.logic = new Logic(this);
-//    }
 
     public void tour() {
         do {
@@ -34,9 +30,28 @@ public class SudokuGame {
     }
 
     public boolean resolveSudoku() {
-        return false;
+        tour();
+        boolean newGame = UserInterface.newGameInput();
+        return newGame;
     }
 
+    public void addNumberToBoard(InputDAO inputDAO) {
+        SudokuElement sudokuElement = sudokuBoard.getBoard().get(inputDAO.getRow()).getSudokuElementsRow().get(inputDAO.getColumn());
+        if(sudokuElement.getValue() == -1) {
+            long onTheList = sudokuElement.getListOfPossibleNumbers().stream()
+                    .filter(integer -> integer == inputDAO.getNumber())
+                    .count();
+            if(onTheList == 1) {
+                sudokuElement.setValue(inputDAO.getNumber());
+                removeFromLists(sudokuElement);
+            } else {
+                UserInterface.wrongNumber();
+            }
+        } else {
+            UserInterface.alreadyTaken();
+        }
+
+    }
     public void completeSudoku() {
         int i = 0;
         do {
@@ -57,9 +72,7 @@ public class SudokuGame {
         } while(!sudokuBoard.isFull());
     }
 
-    public void addNumberToBoard(InputDAO inputDAO) {
-        sudokuBoard.getBoard().get(inputDAO.getRow()).getSudokuElementsRow().get(inputDAO.getColumn()).setValue(inputDAO.getNumber());
-    }
+
 
     public void changedElement() throws SudokuException {
         if(stack.size() > 0) {
@@ -75,7 +88,6 @@ public class SudokuGame {
             changedBoard = true;
         } else {
             System.out.println(sudokuBoard);
-            System.exit(1);
             throw new SudokuException("Exception - stack is empty.");
         }
     }
@@ -87,7 +99,6 @@ public class SudokuGame {
                 addNumber(list);
             } catch (Exception e) {
                 System.out.println(e.getMessage());
-//                System.out.println(sudokuBoard);
             }
         }
     }

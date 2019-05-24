@@ -7,5 +7,7 @@ public class SudokuException extends Exception {
 
     public SudokuException(String message) {
         super(message);
+        System.out.println(message);
+        System.exit(1);
     }
 }
