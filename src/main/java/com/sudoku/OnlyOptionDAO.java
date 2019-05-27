@@ -1,19 +1,19 @@
 package com.sudoku;
 
-public class OnlyOptionDAO {
+class OnlyOptionDAO {
     private boolean onlyOption;
     private int value;
 
-    public OnlyOptionDAO(boolean onlyOption, int value) {
+    OnlyOptionDAO(boolean onlyOption, int value) {
         this.onlyOption = onlyOption;
         this.value = value;
     }
 
-    public boolean isOnlyOption() {
+    boolean isOnlyOption() {
         return onlyOption;
     }
 
-    public int getValue() {
+    int getValue() {
         return value;
     }
 }

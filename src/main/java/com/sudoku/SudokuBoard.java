@@ -10,7 +10,7 @@ public class SudokuBoard extends Prototype {
     public final static int MAX_INDEX = 8;
     private List<SudokuRow> board = new ArrayList<>();
 
-    public SudokuBoard() {
+    SudokuBoard() {
         for(int i = MIN_INDEX; i <= MAX_INDEX; i++) {
             board.add(new SudokuRow());
             for(SudokuElement sudokuElement : board.get(i).getSudokuElementsRow()) {
@@ -19,8 +19,28 @@ public class SudokuBoard extends Prototype {
         }
     }
 
-    public List<SudokuRow> getBoard() {
-        return board;
+    boolean isFull() {
+        for(SudokuRow sudokuRow : board) {
+            for(SudokuElement sudokuElement : sudokuRow.getSudokuElementsRow()) {
+                if(sudokuElement.getValue() == -1) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    SudokuBoard deepCopy() throws CloneNotSupportedException {
+        SudokuBoard clonedBoard = (SudokuBoard)super.clone();
+        clonedBoard.board = new ArrayList<>();
+        for(SudokuRow sudokuRow : board) {
+            List<SudokuElement> clonedListOfSudokuElements = sudokuRow.getSudokuElementsRow().stream()
+                    .map(sudokuElement -> new SudokuElement(new ArrayList<Integer>(sudokuElement.getListOfPossibleNumbers()), sudokuElement.getValue(), sudokuElement.getColumnNumber(), sudokuElement.getRowNumber()))
+                    .collect(Collectors.toList());
+            SudokuRow clonedSudokuRow = new SudokuRow(clonedListOfSudokuElements);
+            clonedBoard.getBoard().add(clonedSudokuRow);
+        }
+        return clonedBoard;
     }
 
     @Override
@@ -45,38 +65,6 @@ public class SudokuBoard extends Prototype {
         return result;
     }
 
-    public boolean isFull() {
-        for(SudokuRow sudokuRow : board) {
-            for(SudokuElement sudokuElement : sudokuRow.getSudokuElementsRow()) {
-                if(sudokuElement.getValue() == -1) {
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
-
-    public SudokuBoard deepCopy() throws CloneNotSupportedException {
-        SudokuBoard clonedBoard = (SudokuBoard)super.clone();
-        clonedBoard.board = new ArrayList<>();
-        for(SudokuRow sudokuRow : board) {
-            List<SudokuElement> clonedListOfSudokuElements = sudokuRow.getSudokuElementsRow().stream()
-                    .map(sudokuElement -> new SudokuElement(new ArrayList<Integer>(sudokuElement.getListOfPossibleNumbers()), sudokuElement.getValue(), sudokuElement.getColumnNumber(), sudokuElement.getRowNumber()))
-                    .collect(Collectors.toList());
-            SudokuRow clonedSudokuRow = new SudokuRow(clonedListOfSudokuElements);
-//            for(int i = SudokuBoard.MIN_INDEX; i <= SudokuBoard.MAX_INDEX; i++) {
-//                clonedSudokuRow.getSudokuElementsRow().remove(i);
-//                clonedSudokuRow.getSudokuElementsRow().add(i, sudokuRow.getSudokuElementsRow().get(i));
-//            }
-            clonedBoard.getBoard().add(clonedSudokuRow);
-        }
-        return clonedBoard;
-    }
-
-    public void setBoard(List<SudokuRow> board) {
-        this.board = board;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -88,5 +76,9 @@ public class SudokuBoard extends Prototype {
     @Override
     public int hashCode() {
         return Objects.hash(board);
+    }
+
+    List<SudokuRow> getBoard() {
+        return board;
     }
 }

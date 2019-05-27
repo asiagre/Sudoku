@@ -8,7 +8,6 @@ public class Application {
         while(!gameFinished) {
 
             SudokuGame theGame = new SudokuGame();
-
             gameFinished = theGame.resolveSudoku();
         }
     }

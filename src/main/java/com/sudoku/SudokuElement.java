@@ -4,14 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class SudokuElement {
+class SudokuElement {
     public static final int EMPTY = -1;
     private int value = EMPTY;
     private List<Integer> listOfPossibleNumbers;
     private int columnNumber;
     private int rowNumber;
 
-    public SudokuElement(int columnNumber) {
+    SudokuElement(int columnNumber) {
         this.columnNumber = columnNumber;
         listOfPossibleNumbers = new ArrayList<>();
         for(int i = 1; i < 10; i++) {
@@ -19,35 +19,11 @@ public class SudokuElement {
         }
     }
 
-    public SudokuElement(List<Integer> list, int value, int columnNumber, int rowNumber) {
+    SudokuElement(List<Integer> list, int value, int columnNumber, int rowNumber) {
         this.listOfPossibleNumbers = list;
         this.value = value;
         this.columnNumber = columnNumber;
         this.rowNumber = rowNumber;
-    }
-
-    public int getValue() {
-        return value;
-    }
-
-    public int getColumnNumber() {
-        return columnNumber;
-    }
-
-    public int getRowNumber() {
-        return rowNumber;
-    }
-
-    public void setValue(int value) {
-        this.value = value;
-    }
-
-    public void setRowNumber(int rowNumber) {
-        this.rowNumber = rowNumber;
-    }
-
-    public List<Integer> getListOfPossibleNumbers() {
-        return listOfPossibleNumbers;
     }
 
     @Override
@@ -70,4 +46,29 @@ public class SudokuElement {
     public int hashCode() {
         return Objects.hash(value, listOfPossibleNumbers, columnNumber, rowNumber);
     }
+
+    void setValue(int value) {
+        this.value = value;
+    }
+
+    void setRowNumber(int rowNumber) {
+        this.rowNumber = rowNumber;
+    }
+
+    int getValue() {
+        return value;
+    }
+
+    int getColumnNumber() {
+        return columnNumber;
+    }
+
+    int getRowNumber() {
+        return rowNumber;
+    }
+
+    List<Integer> getListOfPossibleNumbers() {
+        return listOfPossibleNumbers;
+    }
+
 }

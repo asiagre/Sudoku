@@ -1,25 +1,25 @@
 package com.sudoku;
 
-public class InputDAO {
+class InputDAO {
     private int column;
     private int row;
     private int number;
 
-    public InputDAO(int column, int row, int number) {
+    InputDAO(int column, int row, int number) {
         this.column = column;
         this.row = row;
         this.number = number;
     }
 
-    public int getColumn() {
+    int getColumn() {
         return column;
     }
 
-    public int getRow() {
+    int getRow() {
         return row;
     }
 
-    public int getNumber() {
+    int getNumber() {
         return number;
     }
 }

@@ -2,11 +2,11 @@ package com.sudoku;
 
 import java.util.Scanner;
 
-public class UserInterface {
+class UserInterface {
 
     private static Scanner scan = new Scanner(System.in);
 
-    public static String takeNumber() {
+    static String takeNumber() {
         String input;
         do {
             introduction();
@@ -16,27 +16,27 @@ public class UserInterface {
     }
 
     private static void introduction() {
-        System.out.println("Type the number(format: \"column,row,number\"):");
-        System.out.println("If you want to resolve sudoku type SUDOKU");
+        System.out.println("Type the number - format: \"column,row,number\"");
+        System.out.println("(if you want to resolve sudoku type SUDOKU):");
     }
 
     private static boolean validateInput(String input) {
         return input.matches("[1-9],[1-9],[1-9]");
     }
 
-    public static void wrongNumber() {
+    static void wrongNumber() {
         System.out.println("You cannot put this number in that place");
     }
 
-    public static void alreadyTaken() {
+    static void alreadyTaken() {
         System.out.println("This place is already taken. Please try again.");
     }
 
-    public static void newGame() {
+    private static void newGame() {
         System.out.println("New game? y/n");
     }
 
-    public static boolean newGameInput() {
+    static boolean newGameInput() {
         String input;
         do{
             newGame();
