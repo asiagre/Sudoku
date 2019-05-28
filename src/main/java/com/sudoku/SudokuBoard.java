@@ -20,12 +20,12 @@ public class SudokuBoard extends Prototype {
     }
 
     boolean isFull() {
-        for(SudokuRow sudokuRow : board) {
-            for(SudokuElement sudokuElement : sudokuRow.getSudokuElementsRow()) {
-                if(sudokuElement.getValue() == -1) {
-                    return false;
-                }
-            }
+        long howManyEmpty = board.stream()
+                .flatMap(sudokuRow -> sudokuRow.getSudokuElementsRow().stream())
+                .filter(sudokuElement -> sudokuElement.getValue() == -1)
+                .count();
+        if(howManyEmpty > 0) {
+            return false;
         }
         return true;
     }

@@ -45,12 +45,12 @@ class ComputerGame {
 
     void checkingSudokuSector() {
         List<SudokuElement> list = new ArrayList<>();
-        int m = 0;
-        int n = 0;
+        int sectorX = 0;
+        int sectorY = 0;
         for(int i = SudokuBoard.MIN_INDEX; i <= SudokuBoard.MAX_INDEX; i++) {
             for(int j = SudokuBoard.MIN_INDEX; j <= SudokuBoard.MAX_INDEX; j++) {
                 for(int k = SudokuBoard.MIN_INDEX; k <= SudokuBoard.MAX_INDEX; k++) {
-                    if((j / 3) == m && (k / 3) == n) {
+                    if((j / 3) == sectorX && (k / 3) == sectorY) {
                         list.add(sudokuGame.getSudokuBoard().getBoard().get(j).getSudokuElementsRow().get(k));
                     }
                 }
@@ -60,11 +60,11 @@ class ComputerGame {
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
-            if(m < 2) {
-                m++;
+            if(sectorX < 2) {
+                sectorX++;
             } else {
-                m = 0;
-                n++;
+                sectorX = 0;
+                sectorY++;
             }
         }
     }
@@ -94,13 +94,11 @@ class ComputerGame {
     private OnlyOptionDAO onlyOption(SudokuElement sudokuElement, List<SudokuElement> list) {
         List<Integer> copyList = new ArrayList<>(sudokuElement.getListOfPossibleNumbers());
         for(Integer value : sudokuElement.getListOfPossibleNumbers()) {
-            for(SudokuElement element : list) {
-                for(Integer value2 : element.getListOfPossibleNumbers()) {
-                    if(value.equals(value2)) {
-                        copyList.remove(value);
-                    }
-                }
-            }
+            list.stream()
+                    .filter(element -> !(element.equals(sudokuElement)))
+                    .flatMap(element -> element.getListOfPossibleNumbers().stream())
+                    .filter(valueFromPossibleNumbers -> valueFromPossibleNumbers == value)
+                    .forEach(filtredValue -> copyList.remove(filtredValue));
         }
         if(copyList.size() == 0) {
             return new OnlyOptionDAO(false, 0);
