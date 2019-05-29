@@ -17,6 +17,10 @@ class SudokuRow {
         this.sudokuElementsRow = list;
     }
 
+    List<SudokuElement> getSudokuElementsRow() {
+        return sudokuElementsRow;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -28,9 +32,5 @@ class SudokuRow {
     @Override
     public int hashCode() {
         return Objects.hash(sudokuElementsRow);
-    }
-
-    List<SudokuElement> getSudokuElementsRow() {
-        return sudokuElementsRow;
     }
 }

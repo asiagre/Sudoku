@@ -14,8 +14,7 @@ public class SudokuGame {
 
     public boolean resolveSudoku() {
         tour();
-        boolean newGame = UserInterface.newGameInput();
-        return newGame;
+        return UserInterface.newGameInput();
     }
 
     private void tour() {
