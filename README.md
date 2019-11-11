@@ -8,7 +8,7 @@ type "SUDOKU" and the board will fill by itself.
 
 ## Installation
 
-Download this repo to your computer (click green button "Clone or download"). Go to sudoku directory then entered:
+Download this repo to your computer (click green button "Clone or download"). Go to sudoku directory then enter:
 
 
 ```bash
